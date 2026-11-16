@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A Little Universe for Dina ♡</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+
+:root {
+    --green: #10271e;
+    --dark: #080e0c;
+    --purple: #8d70b4;
+    --silver: #c8ccd2;
+    --white: #eeeaf2;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--dark);
+    color: var(--white);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+}
+
+/* BACKGROUND */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    opacity: .12;
+
+    background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
+}
+
+.stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+
+    background-image:
+    radial-gradient(1px 1px at 10% 20%, white, transparent),
+    radial-gradient(2px 2px at 80% 30%, #b49bd8, transparent),
+    radial-gradient(1px 1px at 40% 80%, white, transparent),
+    radial-gradient(2px 2px at 70% 90%, white, transparent),
+    radial-gradient(1px 1px at 20% 65%, #c5d8c9, transparent);
+
+    background-size: 250px 250px;
+
+    animation: starMove 35s linear infinite;
+    opacity: .55;
+}
+
+@keyframes starMove {
+    from { transform: translateY(0); }
+    to { transform: translateY(-250px); }
+}
+
+/* FLOATING PARTICLES */
+
+.particle {
+    position: fixed;
+    color: #b9a5d5;
+    pointer-events: none;
+    opacity: 0;
+    animation: floatUp 8s linear infinite;
+    z-index: 1;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) rotate(0);
+        opacity: 0;
+    }
+
+    20% { opacity: .5; }
+
+    80% { opacity: .5; }
+
+    100% {
+        transform: translateY(-10vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* GENERAL PAGE DESIGN */
+
+.page {
+    display: none;
+    min-height: 100vh;
+    width: 100%;
+    padding: 35px 18px;
+
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.page.active {
+    display: flex;
+    animation: pageEnter 1s ease;
+}
+
+@keyframes pageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.eyebrow {
+    color: var(--silver);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(30px, 6vw, 62px);
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 400;
+    font-size: clamp(22px, 4vw, 36px);
+}
+
+p {
+    font-size: 21px;
+    line-height: 1.7;
+}
+
+.silver {
+    color: var(--silver);
+}
+
+.purple {
+    color: #b49bd8;
+}
+
+.script {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(38px, 7vw, 65px);
+    color: #b49bd8;
+}
+
+.divider {
+    width: 110px;
+    height: 1px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        silver,
+        transparent
+    );
+
+    margin: 25px auto;
+}
+
+/* BUTTONS */
+
+button {
+    border: 1px solid #87978d;
+    background: rgba(16, 39, 30, .9);
+    color: var(--white);
+
+    padding: 14px 30px;
+
+    font-family: 'Cinzel', serif;
+    letter-spacing: 2px;
+    font-size: 12px;
+
+    cursor: pointer;
+    transition: .35s;
+    margin: 10px;
+}
+
+button:hover {
+    background: #526c5d;
+    box-shadow: 0 0 25px #526c5d66;
+    transform: translateY(-3px);
+}
+
+button:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 4px;
+}
+
+/* MAIN CARD */
+
+.card {
+    background: linear-gradient(
+        145deg,
+        #13271fef,
+        #171020f5
+    );
+
+    border: 1px solid #8c8b9b66;
+
+    padding: 45px 30px;
+    max-width: 650px;
+    width: 100%;
+
+    box-shadow: 0 0 60px #0009;
+}
+
+.symbol {
+    font-size: 40px;
+    color: var(--silver);
+    margin-bottom: 25px;
+}
+
+/* PAGE 1 */
+
+.question {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(23px, 5vw, 38px);
+    margin: 30px 0;
+    color: #ded7e9;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+#noBtn {
+    position: relative;
+}
+
+/* PAGE 2 - LETTER */
+
+.letter-card {
+    max-width: 720px;
+    width: 100%;
+
+    text-align: left;
+
+    background: #e8e3d7;
+    color: #17241c;
+
+    padding: 50px 35px;
+
+    box-shadow: 0 0 60px #0009;
+    position: relative;
+}
+
+.letter-card::before {
+    content: "✦";
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 25px;
+    color: #8063a8;
+}
+
+.letter-card h2 {
+    text-align: center;
+    color: #263d30;
+    margin-bottom: 30px;
+}
+
+.letter-content {
+    font-size: 22px;
+    line-height: 2;
+    color: #334137;
+    white-space: pre-line;
+}
+
+.letter-footer {
+    text-align: right;
+    margin-top: 35px;
+    font-style: italic;
+    color: #8063a8;
+    font-size: 19px;
+}
+
+/* PAGE 3 - CAKE */
+
+.cake-area {
+    margin: 45px auto;
+    position: relative;
+    width: 260px;
+    height: 230px;
+}
+
+.plate {
+    position: absolute;
+    bottom: 10px;
+    left: 5px;
+
+    width: 250px;
+    height: 15px;
+
+    background: linear-gradient(#c9cbd0, #777d86);
+    border-radius: 50%;
+
+    box-shadow: 0 8px 20px #0008;
+}
+
+.cake {
+    position: absolute;
+    bottom: 25px;
+    left: 35px;
+
+    width: 190px;
+    height: 100px;
+
+    background: linear-gradient(
+        90deg,
+        #324f40,
+        #52735b,
+        #243e31
+    );
+
+    border-radius: 12px 12px 18px 18px;
+
+    box-shadow: inset 0 -12px #17271e;
+}
+
+.cake::before {
+    content: "";
+
+    position: absolute;
+    width: 100%;
+    height: 27px;
+
+    background: #d6c7e8;
+    top: -10px;
+
+    border-radius: 50%;
+}
+
+.cake::after {
+    content: "✦  ♡  ✦";
+
+    position: absolute;
+    color: #eee5fa;
+
+    width: 100%;
+    text-align: center;
+
+    top: 38px;
+    font-size: 22px;
+}
+
+/* CANDLES */
+
+.candle {
+    position: absolute;
+    bottom: 125px;
+
+    width: 9px;
+    height: 42px;
+
+    background: repeating-linear-gradient(
+        45deg,
+        #c8b5e8 0 5px,
+        #f0e8f5 5px 9px
+    );
+
+    border-radius: 3px;
+    z-index: 2;
+}
+
+.candle:nth-child(3) { left: 85px; }
+.candle:nth-child(4) { left: 125px; }
+.candle:nth-child(5) { left: 165px; }
+
+.flame {
+    position: absolute;
+    top: -23px;
+    left: -3px;
+
+    width: 15px;
+    height: 22px;
+
+    background: radial-gradient(
+        ellipse,
+        #fff4c1 5%,
+        #e8a34c 55%,
+        #b45a29
+    );
+
+    border-radius: 50%;
+    transform: rotate(45deg);
+
+    box-shadow: 0 0 20px #eeb85a;
+
+    animation: flicker .5s infinite alternate;
+}
+
+@keyframes flicker {
+    from {
+        transform: rotate(40deg) scale(1);
+    }
+
+    to {
+        transform: rotate(50deg) scale(.8);
+    }
+}
+
+.candle.blown .flame {
+    display: none;
+}
+
+.smoke {
+    display: none;
+
+    position: absolute;
+    top: -30px;
+    left: 1px;
+
+    width: 9px;
+    height: 25px;
+
+    border-radius: 50%;
+    border-right: 2px solid #aaa;
+}
+
+.candle.blown .smoke {
+    display: block;
+    animation: smoke 1.5s forwards;
+}
+
+@keyframes smoke {
+    from {
+        opacity: .8;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-35px) scale(2);
+    }
+}
+
+/* WISH POPUP */
+
+#wishPopup {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+
+    background: #000d;
+
+    z-index: 20;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.popup-content {
+    background: linear-gradient(
+        145deg,
+        #172d22,
+        #21182d
+    );
+
+    border: 1px solid #a99ac0;
+
+    padding: 50px 30px;
+    max-width: 420px;
+    width: 100%;
+
+    animation: pageEnter .8s ease;
+}
+
+.popup-content h2 {
+    color: #cbb5ed;
+    margin-bottom: 20px;
+}
+
+/* PAGE 4 */
+
+.final-card {
+    max-width: 700px;
+    width: 100%;
+
+    padding: 50px 30px;
+
+    border: 1px solid #9c8db6;
+
+    background: linear-gradient(
+        145deg,
+        #12251c,
+        #1c1426
+    );
+}
+
+.final-card h1 {
+    color: #c7b0e9;
+    margin: 25px 0;
+}
+
+.final-message {
+    max-width: 550px;
+    margin: 20px auto;
+}
+
+.ending-symbol {
+    font-size: 35px;
+    letter-spacing: 15px;
+    color: silver;
+    margin-top: 30px;
+}
+
+footer {
+    margin-top: 35px;
+    color: #8d958f;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* MOBILE */
+
+@media(max-width: 600px) {
+
+    .card {
+        padding: 35px 20px;
+    }
+
+    .letter-card {
+        padding: 40px 23px;
+    }
+
+    .letter-content {
+        font-size: 20px;
+    }
+
+    button {
+        padding: 13px 22px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+
+<!-- FLOATING PARTICLES -->
+
+<div id="particles"></div>
+
+
+<!-- ================================= -->
+<!-- PAGE 1: THE ENTRANCE -->
+<!-- ================================= -->
+
+<section class="page active" id="page1">
+
+    <div class="card">
+
+        <div class="symbol">♛</div>
+
+        <div class="eyebrow">
+            A little something for someone special
+        </div>
+
+        <h1>
+            Welcome to<br>
+            <span class="silver">Your Little Universe</span>
+        </h1>
+
+        <div class="divider"></div>
+
+        <p class="script">
+            Before we begin...
+        </p>
+
+        <div class="question">
+            Are you a bitch?
+        </div>
+
+        <p style="font-size:16px;color:#aaa">
+            Choose wisely. There is only one correct answer.
+        </p>
+
+        <div class="buttons">
+
+            <button onclick="goToPage(2)">
+                YES ♡
+            </button>
+
+            <button id="noBtn"
+                    onmouseenter="moveNo()"
+                    ontouchstart="moveNo()"
+                    onclick="moveNo()">
+
+                NO
+
+            </button>
+
+        </div>
+
+        <footer>
+            Enter at your own risk
+        </footer>
+
+    </div>
+
+</section>
+
+
+<!-- ================================= -->
+<!-- PAGE 2: THE LETTER -->
+<!-- ================================= -->
+
+<section class="page" id="page2">
+
+    <div class="eyebrow">
+        Chapter I — A letter for you
+    </div>
+
+    <div class="letter-card">
+
+        <h2>
+            A Letter From The Heart
+        </h2>
+
+        <div class="divider"></div>
+
+        <div class="letter-content">
+
+Dina,
+
+It's strange how a few days can turn into memories that actually matter. I'm glad our paths crossed, especially during a time when things weren't particularly easy for you. I hope life gets gentler, your smile stays, and you never forget that your presence makes certain ordinary days feel a little less ordinary.
+
+        </div>
+
+        <div class="letter-footer">
+            With love,<br>
+            Someone who wishes you well ♡
+        </div>
+
+    </div>
+
+    <button onclick="goToPage(3)">
+        CONTINUE TO YOUR BIRTHDAY →
+    </button>
+
+</section>
+
+
+<!-- ================================= -->
+<!-- PAGE 3: THE BIRTHDAY CAKE -->
+<!-- ================================= -->
+
+<section class="page" id="page3">
+
+    <div class="eyebrow">
+        Chapter II — A little birthday magic
+    </div>
+
+    <h1>
+        Make A Wish
+    </h1>
+
+    <div class="divider"></div>
+
+    <p>
+        Another year, another chapter.<br>
+        And a little magic waiting just for you.
+    </p>
+
+    <div class="cake-area">
+
+        <div class="plate"></div>
+
+        <div class="cake"></div>
+
+        <div class="candle">
+            <div class="flame"></div>
+            <div class="smoke"></div>
+        </div>
+
+        <div class="candle">
+            <div class="flame"></div>
+            <div class="smoke"></div>
+        </div>
+
+        <div class="candle">
+            <div class="flame"></div>
+            <div class="smoke"></div>
+        </div>
+
+    </div>
+
+    <p class="silver" style="font-size:18px">
+        Three little flames. One beautiful wish.
+    </p>
+
+    <button id="blowButton" onclick="blowCandles()">
+        ✧ BLOW THE CANDLES ✧
+    </button>
+
+</section>
+
+
+<!-- ================================= -->
+<!-- WISH POPUP -->
+<!-- ================================= -->
+
+<div id="wishPopup">
+
+    <div class="popup-content">
+
+        <div class="symbol">
+            ✧
+        </div>
+
+        <h2>
+            Make A Wish
+        </h2>
+
+        <div class="divider"></div>
+
+        <p>
+            Close your eyes for a moment.<br>
+            Think of something beautiful.<br><br>
+
+            Some wishes deserve to come true.
+        </p>
+
+        <button onclick="closeWish()">
+            MY WISH IS MADE ♡
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================================= -->
+<!-- PAGE 4: THE ENDING -->
+<!-- ================================= -->
+
+<section class="page" id="page4">
+
+    <div class="final-card">
+
+        <div class="eyebrow">
+            The final chapter
+        </div>
+
+        <div class="symbol">
+            🐍
+        </div>
+
+        <p class="script">
+            And that's a wrap...
+        </p>
+
+        <h1>
+            Happy Birthday<br>
+            Once Again!
+        </h1>
+
+        <div class="divider"></div>
+
+        <div class="final-message">
+
+            <p>
+                Thank you for taking the time to explore
+                this little gift.
+            </p>
+
+            <br>
+
+            <p>
+                I hope this small corner of the internet
+                made your day a little more special.
+            </p>
+
+            <br>
+
+            <p class="silver">
+                And I hope the wish you made comes true
+                at exactly the right moment.
+            </p>
+
+            <br>
+
+            <p>
+                May your next chapter be filled with
+                magic, beautiful memories, unexpected
+                happiness and everything your heart
+                quietly wishes for.
+            </p>
+
+        </div>
+
+        <div class="divider"></div>
+
+        <h2 class="purple">
+            Until the stars align again...
+        </h2>
+
+        <div class="ending-symbol">
+            ✦ ♡ ✦
+        </div>
+
+    </div>
+
+    <footer>
+        Made with a little magic
+    </footer>
+
+</section>
+
+
+<!-- ================================= -->
+<!-- JAVASCRIPT -->
+<!-- ================================= -->
+
+<script>
+
+
+// FLOATING PARTICLES
+
+const particleContainer = document.getElementById("particles");
+
+const symbols = ["✦", "✧", "⋆", "♡", "♧"];
+
+for (let i = 0; i < 20; i++) {
+
+    const particle = document.createElement("div");
+
+    particle.className = "particle";
+
+    particle.innerHTML =
+        symbols[Math.floor(Math.random() * symbols.length)];
+
+    particle.style.left = Math.random() * 100 + "vw";
+
+    particle.style.animationDelay =
+        Math.random() * 8 + "s";
+
+    particle.style.animationDuration =
+        (6 + Math.random() * 8) + "s";
+
+    particle.style.fontSize =
+        (10 + Math.random() * 15) + "px";
+
+    particleContainer.appendChild(particle);
+
+}
+
+
+// PAGE NAVIGATION
+
+function goToPage(number) {
+
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    document.getElementById("page" + number)
+        .classList.add("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+// IMPOSSIBLE NO BUTTON
+
+function moveNo() {
+
+    const button = document.getElementById("noBtn");
+
+    button.style.position = "fixed";
+
+    const maxX =
+        window.innerWidth - button.offsetWidth - 20;
+
+    const maxY =
+        window.innerHeight - button.offsetHeight - 20;
+
+    const x = Math.random() * Math.max(0, maxX);
+
+    const y = Math.random() * Math.max(0, maxY);
+
+    button.style.left = x + "px";
+
+    button.style.top = y + "px";
+
+}
+
+
+// BLOW THE CANDLES
+
+let candlesBlown = false;
+
+function blowCandles() {
+
+    if (candlesBlown) return;
+
+    candlesBlown = true;
+
+    document.querySelectorAll(".candle").forEach(
+        (candle, index) => {
+
+            setTimeout(() => {
+
+                candle.classList.add("blown");
+
+            }, index * 300);
+
+        }
+    );
+
+    document.getElementById("blowButton")
+        .innerText = "THE MAGIC HAS BEGUN ✨";
+
+    setTimeout(() => {
+
+        document.getElementById("wishPopup")
+            .style.display = "flex";
+
+    }, 1500);
+
+}
+
+
+// CLOSE WISH POPUP
+
+function closeWish() {
+
+    document.getElementById("wishPopup")
+        .style.display = "none";
+
+    goToPage(4);
+
+}
+
+</script>
+
+</body>
+  </html>
